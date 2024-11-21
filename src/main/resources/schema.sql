@@ -12,7 +12,3 @@ CREATE TABLE Roles
     id   INT         NOT NULL,
     name VARCHAR(64) NOT NULL
 );
-ALTER TABLE users
-DROP column id;
-ALTER TABLE users
-ADD id SERIAL PRIMARY KEY;
