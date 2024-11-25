@@ -24,4 +24,11 @@ public class UserService {
                 .role(userEntity.getRole())
                 .createdAt(userEntity.getCreatedAt()).build();
     }
+    public void updateUser(UserModel user){
+        UserEntity userEntity = userRepository.getReferenceById(user.getId());
+        userEntity.setUsername(user.getUsername());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setRole(user.getRole());
+        userRepository.save(userEntity);
+    }
 }
