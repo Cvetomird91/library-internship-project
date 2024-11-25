@@ -24,11 +24,12 @@ public class UserService {
                 .role(userEntity.getRole())
                 .createdAt(userEntity.getCreatedAt()).build();
     }
-    public void updateUser(UserModel user){
-        UserEntity userEntity = userRepository.getReferenceById(user.getId());
+    public String updateUser(Long id, UserModel user){
+        UserEntity userEntity = userRepository.getReferenceById(id);
         userEntity.setUsername(user.getUsername());
         userEntity.setEmail(user.getEmail());
         userEntity.setRole(user.getRole());
         userRepository.save(userEntity);
+        return "Saved changes to account with id: " + id;
     }
 }
