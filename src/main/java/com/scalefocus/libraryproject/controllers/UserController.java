@@ -3,7 +3,13 @@ package com.scalefocus.libraryproject.controllers;
 import com.scalefocus.libraryproject.models.UserModel;
 import com.scalefocus.libraryproject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
 
 @RestController
 public class UserController {
