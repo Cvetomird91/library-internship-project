@@ -1,0 +1,2 @@
+ALTER TABLE users ADD COLUMN status SMALLINT DEFAULT 1;
+UPDATE users SET status = 1 WHERE status IS NULL;

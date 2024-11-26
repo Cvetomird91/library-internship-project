@@ -5,6 +5,7 @@ import com.scalefocus.libraryproject.models.UserModel;
 import com.scalefocus.libraryproject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -24,12 +25,23 @@ public class UserService {
                 .role(userEntity.getRole())
                 .createdAt(userEntity.getCreatedAt()).build();
     }
-    public String updateUser(Long id, UserModel user){
+    public String updateUser(Long id, UserModel user) {
         UserEntity userEntity = userRepository.getReferenceById(id);
         userEntity.setUsername(user.getUsername());
         userEntity.setEmail(user.getEmail());
         userEntity.setRole(user.getRole());
         userRepository.save(userEntity);
         return "Saved changes to account with id: " + id;
+    }
+
+    public boolean deleteUser(Long id) {
+        Optional<UserEntity> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            UserEntity user = userOptional.get();
+            user.setStatus((short) 0);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 }

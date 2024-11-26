@@ -1,0 +1,4 @@
+ALTER TABLE users
+DROP column id;
+ALTER TABLE users
+ADD id SERIAL PRIMARY KEY;

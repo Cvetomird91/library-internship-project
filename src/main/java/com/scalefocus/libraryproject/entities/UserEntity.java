@@ -27,5 +27,6 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
     private ZonedDateTime createdAt;
+    private short status; //= 1; might have to initialize this but the sql query should handle it
 }
 
