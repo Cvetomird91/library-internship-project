@@ -1,6 +1,8 @@
 package com.scalefocus.libraryproject.services;
 
+import com.scalefocus.libraryproject.models.LoginRequest;
 import com.scalefocus.libraryproject.entities.UserEntity;
+import com.scalefocus.libraryproject.models.LoginResponse;
 import com.scalefocus.libraryproject.models.UserModel;
 import com.scalefocus.libraryproject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +12,14 @@ import java.util.Optional;
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private final AuthService authService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AuthService authService, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
+        this.authService = authService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public UserModel getUser(Long id) {
@@ -43,5 +49,15 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public LoginResponse login(LoginRequest loginRequest) {
+        UserEntity authenticatedUser = authService.authenticate(loginRequest);
+
+//        String jwtToken = jwtTokenProvider.generateToken(authenticatedUser,);
+//
+//        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
+//
+//        return ResponseEntity.ok(loginResponse);
     }
 }
