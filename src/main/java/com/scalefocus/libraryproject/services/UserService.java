@@ -7,6 +7,7 @@ import com.scalefocus.libraryproject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import java.time.ZonedDateTime;
 
@@ -32,19 +33,37 @@ public class UserService {
                 .createdAt(userEntity.getCreatedAt()).build();
     }
 
-    public String createUser(UserModel userModel){
+    public String createUser(UserModel userModel) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userModel.getUsername());
         userEntity.setEmail(userModel.getEmail());
         userEntity.setPassword(passwordEncoder.encode(userModel.getPassword()));
         userEntity.setRole(USER);
         userEntity.setCreatedAt(ZonedDateTime.now());
-        try{
+        try {
             userRepository.save(userEntity);
             return "User created";
+        } catch (Exception e) {
+            return new RegisterException("User already exists").getMessage();
         }
-        catch(Exception e) {
-                return new RegisterException("User already exists").getMessage();
+    }
+    public String updateUser(Long id, UserModel user) {
+        UserEntity userEntity = userRepository.getReferenceById(id);
+        userEntity.setUsername(user.getUsername());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setRole(user.getRole());
+        userRepository.save(userEntity);
+        return "Saved changes to account with id: " + id;
+    }
+
+    public boolean deleteUser(Long id) {
+        Optional<UserEntity> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            UserEntity user = userOptional.get();
+            user.setStatus((short) 0);
+            userRepository.save(user);
+            return true;
         }
+        return false;
     }
 }
