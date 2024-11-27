@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 
 
 @RestController
@@ -26,6 +27,10 @@ public class UserController {
     @GetMapping("/users/{id}")
     public UserModel getUser(@PathVariable Long id){
         return userService.getUser(id);
+    }
+    @GetMapping("/users")
+    public List<UserModel> getUsers(){
+        return userService.allUsers();
     }
     @PostMapping("/auth/register")
     public String registerUser(@RequestBody UserModel userModel) {

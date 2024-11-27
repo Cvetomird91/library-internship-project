@@ -7,6 +7,9 @@ import com.scalefocus.libraryproject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import java.time.ZonedDateTime;
@@ -66,4 +69,15 @@ public class UserService {
         }
         return false;
     }
+
+    public List<UserModel> allUsers () {
+        List<UserEntity> userEntities = userRepository.findAll();
+        List<UserModel> allUsers = new ArrayList<UserModel>();
+        for (UserEntity entity : userEntities) {
+            allUsers.add(UserModel.builder().username(entity.getUsername()).
+                    email(entity.getEmail()).role(entity.getRole()).createdAt(entity.getCreatedAt()).build());
+        }
+        return allUsers;
+    }
+
 }
