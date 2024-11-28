@@ -6,6 +6,8 @@ import com.scalefocus.libraryproject.models.LoginResponse;
 import com.scalefocus.libraryproject.models.UserModel;
 import com.scalefocus.libraryproject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -13,13 +15,13 @@ import java.util.Optional;
 public class UserService {
     private UserRepository userRepository;
     private final AuthService authService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtService jwtService;
 
     @Autowired
-    public UserService(UserRepository userRepository, AuthService authService, JwtTokenProvider jwtTokenProvider) {
+    public UserService(UserRepository userRepository, AuthService authService, JwtService jwtService) {
         this.userRepository = userRepository;
         this.authService = authService;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtService = jwtService;
     }
 
     public UserModel getUser(Long id) {
@@ -54,10 +56,10 @@ public class UserService {
     public LoginResponse login(LoginRequest loginRequest) {
         UserEntity authenticatedUser = authService.authenticate(loginRequest);
 
-//        String jwtToken = jwtTokenProvider.generateToken(authenticatedUser,);
-//
-//        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
-//
-//        return ResponseEntity.ok(loginResponse);
+        String jwtToken = jwtService.generateToken(authenticatedUser);
+
+        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
+
+        return loginResponse;
     }
 }
