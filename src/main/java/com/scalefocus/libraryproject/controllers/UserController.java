@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,10 @@ public class UserController {
     @GetMapping("/users/{id}")
     public UserModel getUser(@PathVariable Long id){
         return userService.getUser(id);
+    }
+    @PostMapping("/auth/register")
+    public String registerUser(@RequestBody UserModel userModel) {
+        return userService.createUser(userModel);
     }
     @PutMapping("/users/{id}")
     public String updateUser(@PathVariable Long id, @RequestBody UserModel userModel) {
