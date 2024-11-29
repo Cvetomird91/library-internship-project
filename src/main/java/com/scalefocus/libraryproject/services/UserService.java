@@ -75,11 +75,7 @@ public class UserService {
 
     public LoginResponse login(LoginRequest loginRequest) {
         UserEntity authenticatedUser = authService.authenticate(loginRequest);
-
         String jwtToken = jwtService.generateToken(authenticatedUser);
-
-        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
-
-        return loginResponse;
+        return new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
     }
 }

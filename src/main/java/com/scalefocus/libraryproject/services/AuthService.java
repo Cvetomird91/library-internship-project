@@ -2,10 +2,8 @@ package com.scalefocus.libraryproject.services;
 
 import com.scalefocus.libraryproject.models.LoginRequest;
 import com.scalefocus.libraryproject.entities.UserEntity;
-import com.scalefocus.libraryproject.exceptions.EmailNotExisting;
+import com.scalefocus.libraryproject.exceptions.EmailNotExistingException;
 import com.scalefocus.libraryproject.repositories.UserRepository;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +30,6 @@ public class AuthService {
                 )
         );
 
-        return userRepository.findByEmail(input.getEmail()).orElseThrow(() -> new EmailNotExisting("Email does not exist"));
+        return userRepository.findByEmail(input.getEmail()).orElseThrow(() -> new EmailNotExistingException("Email does not exist"));
     }
 }
