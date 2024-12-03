@@ -1,10 +1,9 @@
-package com.scalefocus.libraryproject;
+package com.scalefocus.libraryproject.services;
 
 import com.scalefocus.libraryproject.entities.UserEntity;
 import com.scalefocus.libraryproject.enums.Role;
 import com.scalefocus.libraryproject.models.UserModel;
 import com.scalefocus.libraryproject.repositories.UserRepository;
-import com.scalefocus.libraryproject.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,14 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
-public class BasicTests {
+public class UserServiceTest {
 
     @MockBean
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
     @Test
-    public void updateUserTest() {
+    public void updateUserTest_success() {
         Long id = 2L;
         UserModel userModel = new UserModel();
         userModel.setUsername("updatedUsername");
