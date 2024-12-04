@@ -44,4 +44,30 @@ public class UserServiceTest {
         Assertions.assertEquals(userModel.getEmail(), userEntity.getEmail());
         Assertions.assertEquals(userModel.getRole(), userEntity.getRole());
     }
+    @Test
+    public void updateUserTest_fail() {
+        Long id = 2L;
+        UserModel userModel = new UserModel();
+        userModel.setUsername("updatedUsername");
+        userModel.setEmail("updated@example.com");
+        userModel.setRole(Role.valueOf("USER"));
+
+        UserEntity existingUser = new UserEntity();
+        existingUser.setId(id);
+        existingUser.setUsername("oldUsername");
+        existingUser.setEmail("old@example.com");
+        existingUser.setRole(Role.valueOf("ADMIN"));
+
+        Mockito.when(userRepository.getReferenceById(id)).thenReturn(existingUser);
+
+        UserEntity userEntity = userRepository.getReferenceById(id);
+        userEntity.setUsername(userModel.getUsername());
+        userEntity.setEmail(userModel.getEmail());
+        userEntity.setRole(userModel.getRole());
+        userRepository.save(userEntity);
+
+        Assertions.assertEquals(userModel.getUsername(), userEntity.getUsername());
+        Assertions.assertEquals(userModel.getEmail(), userEntity.getEmail());
+        Assertions.assertNotEquals(userModel.getRole(), userEntity.getRole());
+    }
 }
